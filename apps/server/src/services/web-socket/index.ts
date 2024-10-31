@@ -64,7 +64,7 @@ class WebSocket {
       this.clients.forEach((client) => {
         const player = this.navalGame?.getPlayerById(client.id);
         if (player) {
-          client.socket.send(`Board:\n${player.getBoardString()}`);
+          client.socket.send(JSON.stringify(player.getBoard()));
         }
       });
     }
@@ -93,7 +93,7 @@ class WebSocket {
         );
         if (clientOpponent) {
           const opponent = this.navalGame.getOpponent(clientId);
-          clientOpponent.socket.send(`Board:\n ${opponent.getBoardString()}`);
+          clientOpponent.socket.send(JSON.stringify(opponent.getBoard()));
         }
       }
       if (this.navalGame?.playerWinner) {
@@ -122,7 +122,7 @@ class WebSocket {
       });
     });
 
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 3030;
     this.server.listen(PORT, () => {
       console.info(`WebSocket server is listening on port ${PORT}`);
     });

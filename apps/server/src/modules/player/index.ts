@@ -41,6 +41,10 @@ export class Player {
     return this.ships.length === 0;
   }
 
+  public getBoard() {
+    return this.board;
+  }
+
   public getBoardString() {
     return this.board
       .map((row) => row.map((value) => (value ? "1" : "0")).join(""))
@@ -58,10 +62,11 @@ export class Player {
     if (this.ships.length === this.numShips) {
       throw new Error(`You have exceeded the ships limit (${this.numShips}).`);
     }
-    if (this.board[x] !== undefined && this.board[x][y] !== undefined) {
+
+    if (this.board[x] !== undefined && !this.board[x][y]) {
       this.board[x][y] = true;
+      this.ships.push(true);
     }
-    this.ships.push(true);
   }
 
   public removeShip({ x, y }: ModifyShipParams) {

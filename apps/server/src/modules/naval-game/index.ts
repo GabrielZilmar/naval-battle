@@ -46,16 +46,16 @@ export class NavalGame {
   }
 
   public init() {
-    do {
+    while (!this.player1.allShipFilled) {
       const randomX = Math.floor(Math.random() * BOARD_SIZE);
       const randomY = Math.floor(Math.random() * BOARD_SIZE);
       this.player1.addShip({ x: randomX, y: randomY });
-    } while (!this.player1.allShipFilled);
+    }
 
-    do {
+    while (!this.player2.allShipFilled) {
       const randomX = Math.floor(Math.random() * BOARD_SIZE);
       const randomY = Math.floor(Math.random() * BOARD_SIZE);
       this.player2.addShip({ x: randomX, y: randomY });
-    } while (!this.player2.allShipFilled);
+    }
   }
 }
