@@ -41,6 +41,12 @@ export class Player {
     return this.ships.length === 0;
   }
 
+  public getBoardString() {
+    return this.board
+      .map((row) => row.map((value) => (value ? "1" : "0")).join(""))
+      .join("\n");
+  }
+
   private validateCoordinates({ x, y }: ModifyShipParams) {
     if (x > this.boardSize || y > this.boardSize) {
       throw new Error(`X or Y is bigger than board size (${this.boardSize}).`);
@@ -75,6 +81,9 @@ export class Player {
     if (this.board[x] !== undefined && this.board[x][y]) {
       this.board[x][y] = false;
       this.ships.pop();
+      return true;
     }
+
+    return false;
   }
 }
