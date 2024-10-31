@@ -1,0 +1,14 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./dist",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
