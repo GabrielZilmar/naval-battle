@@ -1,41 +1,22 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 const SQUARE_SIZE = 50;
 const BOARD_SIZE = 5;
 
 type BoardProps = {
   cellSize?: number;
   boardSize?: number;
+  onCellClick?: (row: number, col: number) => void;
+  shipCoordinates?: boolean[][];
 };
 
 const Board: React.FC<BoardProps> = ({
   cellSize = SQUARE_SIZE,
   boardSize = BOARD_SIZE,
+  onCellClick,
+  shipCoordinates,
 }) => {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [board, setBoard] = useState<boolean[][]>([]);
-
-  useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3030");
-    ws.onmessage = (event) => {
-      if (event.data.includes("won")) {
-        alert(event.data);
-        return;
-      }
-      setBoard(JSON.parse(event.data));
-    };
-    setSocket(ws);
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
   const handleCellClick = (row: number, col: number) => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(`${row},${col}`);
+    if (onCellClick) {
+      onCellClick(row, col);
     }
   };
 
@@ -55,7 +36,9 @@ const Board: React.FC<BoardProps> = ({
             style={{
               width: cellSize,
               height: cellSize,
-              backgroundColor: board[row]?.[col] ? "#f33" : "#a2d2ff",
+              backgroundColor: shipCoordinates?.[row]?.[col]
+                ? "#f33"
+                : "#a2d2ff",
               border: "1px solid #555",
             }}
           >
